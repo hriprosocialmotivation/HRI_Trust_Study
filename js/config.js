@@ -25,8 +25,8 @@ const CONFIG = {
     confidential and will be used for research purposes only. You may
     withdraw at any time by closing this window.`,
    
-   PROLIFIC_COMPLETION_CODE: 'CKTZPFUF',
-   PROLIFIC_COMPLETION_URL: 'https://app.prolific.com/submissions/complete?cc=CKTZPFUF'
+   PROLIFIC_COMPLETION_CODE: 'C1DG7W4Q',
+   PROLIFIC_COMPLETION_URL: 'https://app.prolific.com/submissions/complete?cc=C1DG7W4Q'
 };
 
 /* -------------------------------------------------------------------------
@@ -181,7 +181,7 @@ const QUESTION_SECTIONS = [
   {
     id: 'motivation',
     title: 'Perceived Motivation for Helping',
-    studies: [1, 2],
+    studies: [1],
     items: [
       { id: 'm1', text: 'The robot helped because it cared about the person.' },
       { id: 'm2', text: 'The robot helped because it valued acting this way.' },
