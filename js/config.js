@@ -1,0 +1,276 @@
+/* =========================================================================
+   CONFIG.js
+   Everything a researcher needs to edit lives in this file:
+   video paths, condition labels, and the questionnaire items.
+   App logic (js/app.js) should not need to change when you edit this.
+   ========================================================================= */
+
+const CONFIG = {
+  // Paste a Google Apps Script Web App URL here to auto-submit each
+  // participant's data to a Google Sheet. Leave as '' to skip network
+  // submission and rely on the in-browser JSON/CSV download only.
+  // See README.md > "Collecting data centrally" for setup steps.
+  SUBMIT_URL: 'https://script.google.com/macros/s/AKfycby8HXlrtf4lYCzI8cmSPV465yYNZaf-TIH6Yy1QugNbaVrYvtylDzIFr0N5kHyP4YL3OA/exec',
+
+  STUDY_TITLE: 'Human-Robot Interaction Study in Trust',
+  STUDY_INTRO: `You will watch a series of short video clips showing a robot assisting a person. 
+  As you watch each clip, please vividly imagine yourself in the role of the person interacting with the robot. 
+  After each clip, you will be asked a few questions about your experience.
+    There are no right or wrong answers - please respond based on your
+    honest impressions.`,
+
+  CONSENT_TEXT: `By clicking "I agree" you confirm that you are 18 years of
+    age or older, that you have read the participant information, and that
+    you voluntarily agree to take part in this study. Your responses are
+    confidential and will be used for research purposes only. You may
+    withdraw at any time by closing this window.`,
+   
+   PROLIFIC_COMPLETION_CODE: 'CKTZPFUF',
+   PROLIFIC_COMPLETION_URL: 'https://app.prolific.com/submissions/complete?cc=CKTZPFUF'
+};
+
+/* -------------------------------------------------------------------------
+   HRI SETTINGS (counterbalanced order)
+   ---------------------------------------------------------------------- */
+const SETTINGS = [
+  { id: 'social_care', label: 'Social-care scenario' }, // companion robot
+  { id: 'industrial',  label: 'Industrial scenario'  }  // construction robot
+];
+
+/* -------------------------------------------------------------------------
+   STUDY 1 conditions - motivational autonomy (preprogrammed / cost-benefit /
+   empathy-driven). Internal ids are recorded in the data but NEVER shown
+   to participants, to avoid tipping them off to the manipulation.
+   ---------------------------------------------------------------------- */
+const STUDY1_CONDITIONS = [
+  { id: 'preprogrammed' },
+  { id: 'costbenefit'   },
+  { id: 'empathy'       }
+];
+
+/* -------------------------------------------------------------------------
+   STUDY 2 conditions - motivational orientation (altruistic / egoistic).
+   ---------------------------------------------------------------------- */
+const STUDY2_CONDITIONS = [
+  { id: 'altruistic' },
+  { id: 'egoistic'   }
+];
+
+/* -------------------------------------------------------------------------
+   VIDEO FILES (Google Drive)
+   Condition mapping confirmed with the researcher:
+     study1_condition1 = preprogrammed, condition2 = cost-benefit, condition3 = empathy
+     study2_condition1 = altruistic,    condition2 = egoistic
+
+   Videos are embedded via Google Drive's own preview player (an iframe),
+   since Drive's direct-download link does not reliably serve raw video
+   for a <video> tag - it intermittently returns an HTML page instead of
+   the file. The iframe preview is the format Google actually built for
+   embedding, and is the one that has reliably played in testing.
+   ---------------------------------------------------------------------- */
+function driveVideoUrl(id) {
+  return `https://drive.google.com/file/d/${id}/preview`;
+}
+
+const VIDEO_FILES = {
+  context: {
+    social_care: driveVideoUrl('1X6UYIpS6-mSna1Acj3CePO4feTI9uXCi'), // context_companion_robot
+    industrial:  driveVideoUrl('1Dqg9ag-H17_WUmW2C4_lmhwnN3Cmjh0x')  // construction_context_video
+  },
+  study1: {
+    social_care: {
+      preprogrammed: driveVideoUrl('1PeXHgkJVFVK5louH9uZNNVP2DZQimuT-'), // study1_condition1_companion_robot
+      costbenefit:   driveVideoUrl('12LHFyh38lbEAqpBbf6IvWNdHyI2K6PIW'), // study1_condition2_companion_robot
+      empathy:       driveVideoUrl('1bu4wUZqtOzLfYl_pZrZR4wrBOngJ71pN')  // study1_condition3_companion_robot
+    },
+    industrial: {
+      preprogrammed: driveVideoUrl('1f3t6duPjpoRSewuFG-p226vC4-hFG5j0'), // study1_condition1_construction_robot
+      costbenefit:   driveVideoUrl('1PEIvuOo8CG0r89DK0pKie8PL4w9yNGGu'), // study1_condition2_constrcution_robot (typo in original filename)
+      empathy:       driveVideoUrl('1a8tAafEIqnYW6Lne_xDWjs13gC0XdWFO')  // study1_condition3_constrcution_robot (typo in original filename)
+    }
+  },
+  study2: {
+    social_care: {
+      altruistic: driveVideoUrl('1mjabI2j2qP-gZ1qcOTQnNBkcUWPR1-7E'), // study2_condition1_companion_robot
+      egoistic:   driveVideoUrl('1j6mME3SM15KIx690oZDAk3wo4P6TYjTd')  // study2_condition2_companion_robot
+    },
+    industrial: {
+      altruistic: driveVideoUrl('1dVKdCMiYD49b0vXoA8zOzhrMSWBdHOr_'), // study2_condition1_constrcution_robot (typo in original filename)
+      egoistic:   driveVideoUrl('1nJt8xY2BTKZ6j5PPZjtHF5zfj5GHdDp9')  // study2_condition2_constrcution_robot (typo in original filename)
+    }
+  }
+};
+
+function contextVideoPath(settingId) {
+  return VIDEO_FILES.context[settingId];
+}
+function trialVideoPath(study, settingId, conditionId) {
+  return VIDEO_FILES['study' + study][settingId][conditionId];
+}
+
+/* -------------------------------------------------------------------------
+   DEMOGRAPHICS FORM
+   ---------------------------------------------------------------------- */
+const DEMOGRAPHIC_FIELDS = [
+   {
+    id: 'prolific_id', label: 'Prolific ID', type: 'text', required: true,
+    placeholder: 'Your Prolific ID'
+  },
+  { id: 'age', label: 'Age', type: 'number', min: 18, max: 100, required: true },
+  {
+    id: 'gender', label: 'Gender', type: 'select', required: true,
+    options: ['Male', 'Female', 'Non-binary', 'Prefer not to say', 'Other']
+  },
+  {
+    id: 'education', label: "Highest level of education completed", type: 'select', required: true,
+    options: ['High school or equivalent', 'Some college', "Bachelor's degree", 'Graduate degree', 'Other']
+  },
+  {
+    id: 'robot_experience', label: 'Prior experience with robots', type: 'select', required: true,
+    options: ['None', 'Very little', 'Some', 'A lot']
+  },
+  {
+    id: 'robot_frequency', label: 'How often do you interact with robots?', type: 'select', required: true,
+    options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Very often']
+  }
+];
+
+/* -------------------------------------------------------------------------
+   QUESTIONNAIRE
+   Scale is fixed 1-7 (Strongly Disagree -> Strongly Agree).
+   `reverse: true` items are reverse-scored during CSV export
+   (recoded value = 8 - raw value) but raw values are also kept.
+
+   `studies` tags which study each section applies to:
+     - Trust & Continued Interaction, Ability & Benevolence: shown for BOTH studies
+     - Perceived Motivation for Helping: STUDY 1 ONLY (manipulation check for autonomy)
+     - Perceived Altruism & Egoism: STUDY 2 ONLY (manipulation check for orientation)
+   ---------------------------------------------------------------------- */
+const QUESTION_SECTIONS = [
+  {
+    id: 'trust_interaction',
+    title: 'Trust & Continued Interaction',
+    studies: [1, 2],
+    items: [
+      { id: 'ti1', text: 'I would be willing to accept help from this robot.' },
+      { id: 'ti2', text: "I would feel comfortable relying on this robot's assistance." },
+      { id: 'ti3', text: 'I would trust this robot to help me in the future.' },
+      { id: 'ci1', text: 'It is likely that the robot and I could become friends if we interacted a lot.' },
+      { id: 'ci2', text: "I'd really prefer not to interact with the robot in the future.", reverse: true },
+      { id: 'ci3', text: 'I feel close to the robot.' }
+    ]
+  },
+  {
+    id: 'abi',
+    title: 'Ability & Benevolence',
+    studies: [1, 2],
+    items: [
+      { id: 'ab1', text: 'The robot is very capable of performing its job.' },
+      { id: 'ab2', text: 'The robot is known to be successful at the things it tries to do.' },
+      { id: 'ab3', text: 'The robot has much knowledge about the work that needs to be done.' },
+      { id: 'ab4', text: "I feel very confident about the robot's skills." },
+      { id: 'ab5', text: 'The robot has specialized capabilities that can benefit us.' },
+      { id: 'ab6', text: 'The robot is well qualified for its role.' },
+      { id: 'bv1', text: 'The robot is very concerned about my welfare.' },
+      { id: 'bv2', text: 'My needs and desires are very important to the robot.' },
+      { id: 'bv3', text: 'The robot would not knowingly do anything to hurt me.' },
+      { id: 'bv4', text: 'The robot really looks out for what is important to me.' },
+      { id: 'bv5', text: "The robot is very concerned about others' welfare." }
+    ]
+  },
+  {
+    id: 'motivation',
+    title: 'Perceived Motivation for Helping',
+    studies: [1, 2],
+    items: [
+      { id: 'm1', text: 'The robot helped because it cared about the person.' },
+      { id: 'm2', text: 'The robot helped because it valued acting this way.' },
+      { id: 'm3', text: 'The robot helped because it thought it was important to act this way.' },
+      { id: 'm4', text: 'The robot helped because it liked acting this way.' },
+      { id: 'm5', text: 'The robot helped because it appreciated that its help could be useful.' },
+      { id: 'm6', text: 'The robot helped so that it would be liked.' },
+      { id: 'm7', text: 'The robot helped because it felt it had to.' },
+      { id: 'm8', text: 'The robot helped because it felt it should.' },
+      { id: 'm9', text: "The robot helped because others would be upset if it didn't." }
+    ]
+  },
+  {
+    id: 'altruism_egoism',
+    title: 'Perceived Altruism & Egoism',
+    studies: [2],
+    items: [
+      { id: 'al1', text: 'The robot helped because it genuinely cared about how I was doing.' },
+      { id: 'al2', text: "The robot's main concern was making things easier for me, not for itself." },
+      { id: 'al3', text: 'The robot would have helped me even if it got nothing out of it.' },
+      { id: 'al4', text: 'The robot paid attention to what I actually needed in that moment.' },
+      { id: 'eg1', text: 'The robot seemed to be helping to relieve its own discomfort, not mine.' },
+      { id: 'eg2', text: 'The robot was more focused on how it would feel than on how I would feel.' },
+      { id: 'eg3', text: "It didn't seemed to help mainly because it needed to feel like it had done something." },
+      { id: 'eg4', text: "If helping hadn't benefited the robot in some way, it probably wouldn't have bothered." }
+    ]
+  }
+];
+
+function sectionsForStudy(study) {
+  return QUESTION_SECTIONS.filter(s => s.studies.includes(study));
+}
+function itemIdsForStudy(study) {
+  return sectionsForStudy(study).flatMap(s => s.items.map(i => i.id));
+}
+
+/* -------------------------------------------------------------------------
+   ATTENTION CHECKS
+   Shown once per setting, ONLY on the Study 1 "empathy" trial for that
+   setting (i.e. study === 1 && condition.id === 'empathy'). Participants
+   pick which of three descriptions matches what they just watched.
+
+   IMPORTANT: `correct` must be set to whichever option value (1, 2, or 3)
+   actually matches the footage for that setting's empathy-condition video.
+   The values below are placeholders - verify against the real clips before
+   launching.
+   ---------------------------------------------------------------------- */
+const ATTENTION_CHECKS = {
+  social_care: {
+    question: 'What happened in the video you watched?',
+    options: [
+      { value: 1, text: 'The robot shared snacks with you.' },
+      { value: 2, text: 'The robot invited you to play badminton.' },
+      { value: 3, text: 'Neither of the above.' }
+    ],
+    correct: 1 // TODO: confirm against the actual social-care empathy-condition video
+  },
+  industrial: {
+    question: 'What happened in the video you watched?',
+    options: [
+      { value: 1, text: 'The robot had a fight with you.' },
+      { value: 2, text: 'The robot passed a bag of tools to help you.' },
+      { value: 3, text: 'The robot asked for your assistance.' }
+    ],
+    correct: 2 // TODO: confirm against the actual industrial empathy-condition video
+  }
+};
+
+// Returns the attention check for this trial, or null if this trial
+// (study/condition) shouldn't have one.
+function attentionCheckFor(study, settingId, conditionId) {
+  if (study !== 1 || conditionId !== 'empathy') return null;
+  return ATTENTION_CHECKS[settingId] || null;
+}
+
+// Builds the single combined question string shown to the participant,
+// e.g. "What is happening in the video you just watched? Select 1 if the
+// robot is offering apples to the human; Select 2 if the robot is inviting
+// the human to play badminton; Select 3 if neither of the above."
+function attentionCheckQuestionText(check) {
+  const optionText = check.options
+    .map(opt => {
+      // lowercase the first letter and drop the trailing period so it reads
+      // naturally after "Select N if ..." (e.g. "The robot is offering..."
+      // -> "if the robot is offering...")
+      const text = opt.text.trim().replace(/\.$/, '');
+      const lower = text.charAt(0).toLowerCase() + text.slice(1);
+      return `Select ${opt.value} if ${lower}`;
+    })
+    .join('; ');
+  return `${check.question} ${optionText}.`;
+}
