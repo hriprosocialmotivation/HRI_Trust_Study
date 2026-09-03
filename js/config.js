@@ -153,7 +153,7 @@ const QUESTION_SECTIONS = [
     studies: [1],
     items: [
       { id: 'Int2', text: "The robot helped because it wanted to avoid feeling bad about itself." },
-      { id: 'Ex1', text: "The robot helped because helping is a rule it has to follow." },
+      { id: 'Ex1', text: "The robot helped because helping is a pre-defined rule it has to follow." },
       { id: 'Ide2', text: "The robot helped because helping others fits its own value." },
       { id: 'Ide1', text: "The robot helped because it thinks it's important to give help when it's needed." },
       { id: 'Ex2', text: "The robot helped because that's what it was built to do." },
