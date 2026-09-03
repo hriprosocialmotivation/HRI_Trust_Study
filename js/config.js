@@ -79,9 +79,9 @@ const VIDEO_FILES = {
   },
   study1: {
     social_care: {
-      preprogrammed: driveVideoUrl('1PeXHgkJVFVK5louH9uZNNVP2DZQimuT-'), // study1_condition1_companion_robot
-      costbenefit:   driveVideoUrl('12LHFyh38lbEAqpBbf6IvWNdHyI2K6PIW'), // study1_condition2_companion_robot
-      empathy:       driveVideoUrl('1bu4wUZqtOzLfYl_pZrZR4wrBOngJ71pN')  // study1_condition3_companion_robot
+      preprogrammed: driveVideoUrl('1nBmuEWeIeqNU7SKor2eShyuvsU0IayJe'), // study1_condition1_companion_robot
+      costbenefit:   driveVideoUrl('1ca8oX76dx_cl2jnVWWvDHOAveEhM5JNB'), // study1_condition2_companion_robot
+      empathy:       driveVideoUrl('1OASxHZdpegi8gp2wQnau4jFZnptQklAw')  // study1_condition3_companion_robot
     },
     industrial: {
       preprogrammed: driveVideoUrl('15avpumsAk8OrKL_vbs0335ECUhYHaCUK'), // study1_condition1_construction_robot
@@ -91,8 +91,8 @@ const VIDEO_FILES = {
   },
   study2: {
     social_care: {
-      altruistic: driveVideoUrl('1mjabI2j2qP-gZ1qcOTQnNBkcUWPR1-7E'), // study2_condition1_companion_robot
-      egoistic:   driveVideoUrl('1j6mME3SM15KIx690oZDAk3wo4P6TYjTd')  // study2_condition2_companion_robot
+      altruistic: driveVideoUrl('1ZEeb2fdYZMny2d96uaPgMBFCr_e3DJLR'), // study2_condition1_companion_robot
+      egoistic:   driveVideoUrl('1otPUWAznBeEvRYEVPQwrGjkTv-tAjw1t')  // study2_condition2_companion_robot
     },
     industrial: {
       altruistic: driveVideoUrl('1n40zMqPW7iy5EUk0Jt6dQG2-B5D4EzCQ'), // study2_condition1_constrcution_robot (typo in original filename)
