@@ -205,7 +205,7 @@ const QUESTION_SECTIONS = [
       { id: 'Ex1', text: 'The robot helped because helping is a rule it has to follow.' },
       { id: 'Int2', text: 'The robot helped because it wanted to avoid feeling bad about itself.' },
       { id: 'Ide2', text: 'The robot helped because helping others fits its own value.' },
-      { id: 'Ide1', text: 'The robot helped because it thinks it's important to give help when it's needed.' },
+      { id: 'Ide1', text: "The robot helped because it thinks it's important to give help when it's needed." },
       { id: 'Ex2', text: "The robot helped because that's what it was built to do." },
       { id: 'Int1', text: 'The robot helped because it would feel bad if it didn't help' }
     ]
