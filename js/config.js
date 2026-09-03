@@ -147,6 +147,32 @@ const DEMOGRAPHIC_FIELDS = [
      - Perceived Altruism & Egoism: STUDY 2 ONLY (manipulation check for orientation)
    ---------------------------------------------------------------------- */
 const QUESTION_SECTIONS = [
+     {
+    id: 'motivation',
+    title: "Perceived Motivation for Helping. Based on the robot's dialogue, select the reason why the robot helped.",
+    studies: [1],
+    items: [
+      { id: 'Int2', text: "The robot helped because it wanted to avoid feeling bad about itself." },
+      { id: 'Ex1', text: "The robot helped because helping is a rule it has to follow." },
+      { id: 'Ide2', text: "The robot helped because helping others fits its own value." },
+      { id: 'Ide1', text: "The robot helped because it thinks it's important to give help when it's needed." },
+      { id: 'Ex2', text: "The robot helped because that's what it was built to do." },
+      { id: 'Int1', text: "The robot helped because it would feel bad if it didn't help." }
+    ]
+  },
+  {
+    id: 'altruism_egoism',
+    title: "Perceived Altruism & Egoism. Based on the robot's dialogue, select the reason why the robot helped.",
+    studies: [2],
+    items: [
+      { id: 'eg1', text: 'The robot seemed to be helping to relieve its own discomfort, not mine.' },
+      { id: 'eg2', text: 'The robot was more focused on how it would feel than on how I would feel.' },
+      { id: 'eg3', text: "If helping hadn't benefited the robot in some way, it probably wouldn't have bothered." },
+      { id: 'al1', text: 'The robot helped because it genuinely cared about how I was doing.' },
+      { id: 'al2', text: "The robot's main concern was making things easier for me, not for itself." },
+      { id: 'al3', text: 'The robot would have helped me even if it got nothing out of it.' }
+    ]
+  },
   {
     id: 'trust_interaction',
     title: 'Trust & Continued Interaction',
@@ -197,32 +223,7 @@ const QUESTION_SECTIONS = [
       { id: 'in6', text: "Sound principles seem to guide the robot's behavior." },
     ]
      },
-  {
-    id: 'motivation',
-    title: 'Perceived Motivation for Helping',
-    studies: [1],
-    items: [
-      { id: 'Ex1', text: "The robot helped because helping is a rule it has to follow." },
-      { id: 'Int2', text: "The robot helped because it wanted to avoid feeling bad about itself." },
-      { id: 'Ide2', text: "The robot helped because helping others fits its own value." },
-      { id: 'Ide1', text: "The robot helped because it thinks it's important to give help when it's needed." },
-      { id: 'Ex2', text: "The robot helped because that's what it was built to do." },
-      { id: 'Int1', text: "The robot helped because it would feel bad if it didn't help." }
-    ]
-  },
-  {
-    id: 'altruism_egoism',
-    title: 'Perceived Altruism & Egoism',
-    studies: [2],
-    items: [
-      { id: 'eg1', text: 'The robot seemed to be helping to relieve its own discomfort, not mine.' },
-      { id: 'eg2', text: 'The robot was more focused on how it would feel than on how I would feel.' },
-      { id: 'eg3', text: "If helping hadn't benefited the robot in some way, it probably wouldn't have bothered." },
-      { id: 'al1', text: 'The robot helped because it genuinely cared about how I was doing.' },
-      { id: 'al2', text: "The robot's main concern was making things easier for me, not for itself." },
-      { id: 'al3', text: 'The robot would have helped me even if it got nothing out of it.' }
-    ]
-  }
+
 ];
 
 function sectionsForStudy(study) {
