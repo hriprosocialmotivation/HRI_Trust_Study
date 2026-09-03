@@ -149,7 +149,7 @@ const DEMOGRAPHIC_FIELDS = [
 const QUESTION_SECTIONS = [
      {
     id: 'motivation',
-    title: "Perceived Motivation for Helping. Based on the robot's dialogue in this video, select the reason why the robot helped.",
+    title: "Perceived Motivation for Helping. Based on the robot's DIALOGUE In This Video, select the reason why the robot helped.",
     studies: [1],
     items: [
       { id: 'Int2', text: "The robot helped because it wanted to avoid feeling bad about itself." },
@@ -162,7 +162,7 @@ const QUESTION_SECTIONS = [
   },
   {
     id: 'altruism_egoism',
-    title: "Perceived Altruism & Egoism. Based on the robot's dialogue in this video, select the reason why the robot helped.",
+    title: "Perceived Altruism & Egoism. Based on the robot's DIALOGUE In This Video, select the reason why the robot helped.",
     studies: [2],
     items: [
       { id: 'eg1', text: 'The robot seemed to be helping to relieve its own discomfort, not mine.' },
@@ -175,7 +175,7 @@ const QUESTION_SECTIONS = [
   },
   {
     id: 'trust_interaction',
-    title: 'Trust & Continued Interaction',
+    title: 'Trust & Continued Interaction. Please respond based on your honest feelings.',
     studies: [1, 2],
     items: [
       { id: 'ti1', text: 'I would be willing to accept help from this robot.' },
@@ -187,7 +187,7 @@ const QUESTION_SECTIONS = [
   },
   {
     id: 'abi',
-    title: 'Ability',
+    title: 'Ability. Please respond based on your honest feelings.',
     studies: [1, 2],
     items: [
       { id: 'ab1', text: 'The robot is very capable of performing its job.' },
@@ -200,7 +200,7 @@ const QUESTION_SECTIONS = [
   },
      {
     id: 'ben',
-    title: 'Benevolence',
+    title: 'Benevolence. Please respond based on your honest feelings.',
     studies: [1, 2],
     items: [
       { id: 'bv1', text: 'The robot is very concerned about my welfare.' },
@@ -212,7 +212,7 @@ const QUESTION_SECTIONS = [
   },
    {
     id: 'int',
-    title: 'Integrity',
+    title: 'Integrity. Please respond based on your honest feelings.',
     studies: [1, 2],
     items: [
       { id: 'in1', text: 'The robot has a strong sense of justice.' },
