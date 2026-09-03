@@ -149,7 +149,7 @@ const DEMOGRAPHIC_FIELDS = [
 const QUESTION_SECTIONS = [
      {
     id: 'motivation',
-    title: "Perceived Motivation for Helping. Based on the robot's dialogue, select the reason why the robot helped.",
+    title: "Perceived Motivation for Helping. Based on the robot's dialogue in this video, select the reason why the robot helped.",
     studies: [1],
     items: [
       { id: 'Int2', text: "The robot helped because it wanted to avoid feeling bad about itself." },
@@ -162,7 +162,7 @@ const QUESTION_SECTIONS = [
   },
   {
     id: 'altruism_egoism',
-    title: "Perceived Altruism & Egoism. Based on the robot's dialogue, select the reason why the robot helped.",
+    title: "Perceived Altruism & Egoism. Based on the robot's dialogue in this video, select the reason why the robot helped.",
     studies: [2],
     items: [
       { id: 'eg1', text: 'The robot seemed to be helping to relieve its own discomfort, not mine.' },
