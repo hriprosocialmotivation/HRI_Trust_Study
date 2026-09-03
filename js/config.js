@@ -155,14 +155,13 @@ const QUESTION_SECTIONS = [
       { id: 'ti1', text: 'I would be willing to accept help from this robot.' },
       { id: 'ti2', text: "I would feel comfortable relying on this robot's assistance." },
       { id: 'ti3', text: 'I would trust this robot to help me in the future.' },
-      { id: 'ci1', text: 'It is likely that the robot and I could become friends if we interacted a lot.' },
       { id: 'ci2', text: "I'd really prefer not to interact with the robot in the future.", reverse: true },
       { id: 'ci3', text: 'I feel close to the robot.' }
     ]
   },
   {
     id: 'abi',
-    title: 'Ability & Benevolence',
+    title: 'Ability',
     studies: [1, 2],
     items: [
       { id: 'ab1', text: 'The robot is very capable of performing its job.' },
@@ -171,27 +170,44 @@ const QUESTION_SECTIONS = [
       { id: 'ab4', text: "I feel very confident about the robot's skills." },
       { id: 'ab5', text: 'The robot has specialized capabilities that can benefit us.' },
       { id: 'ab6', text: 'The robot is well qualified for its role.' },
+    ]
+  },
+     {
+    id: 'ben',
+    title: 'Benevolence',
+    studies: [1, 2],
+    items: [
       { id: 'bv1', text: 'The robot is very concerned about my welfare.' },
       { id: 'bv2', text: 'My needs and desires are very important to the robot.' },
       { id: 'bv3', text: 'The robot would not knowingly do anything to hurt me.' },
       { id: 'bv4', text: 'The robot really looks out for what is important to me.' },
-      { id: 'bv5', text: "The robot is very concerned about others' welfare." }
+      { id: 'bv5', text: "The robot will go out of its way to help me." }
     ]
   },
+   {
+    id: 'int',
+    title: 'Integrity',
+    studies: [1, 2],
+    items: [
+      { id: 'in1', text: 'The robot has a strong sense of justice.' },
+      { id: 'in2', text: 'I never have to wonder whether the robot will stick to its word.' },
+      { id: 'in3', text: 'The robot tries hard to be fair in its dealings with others.' },
+      { id: 'in4', text: "The robot's actions and behaviors are not very consistent." },
+      { id: 'in5', text: "I like the robot's values." },
+      { id: 'in6', text: "Sound principles seem to guide the robot's behavior." },
+    ]
+     },
   {
     id: 'motivation',
     title: 'Perceived Motivation for Helping',
     studies: [1],
     items: [
-      { id: 'm1', text: 'The robot helped because it cared about the person.' },
-      { id: 'm2', text: 'The robot helped because it valued acting this way.' },
-      { id: 'm3', text: 'The robot helped because it thought it was important to act this way.' },
-      { id: 'm4', text: 'The robot helped because it liked acting this way.' },
-      { id: 'm5', text: 'The robot helped because it appreciated that its help could be useful.' },
-      { id: 'm6', text: 'The robot helped so that it would be liked.' },
-      { id: 'm7', text: 'The robot helped because it felt it had to.' },
-      { id: 'm8', text: 'The robot helped because it felt it should.' },
-      { id: 'm9', text: "The robot helped because others would be upset if it didn't." }
+      { id: 'Ex1', text: 'The robot helped because helping is a rule it has to follow.' },
+      { id: 'Int2', text: 'The robot helped because it wanted to avoid feeling bad about itself.' },
+      { id: 'Ide2', text: 'The robot helped because helping others fits its own value.' },
+      { id: 'Ide1', text: 'The robot helped because it thinks it's important to give help when it's needed.' },
+      { id: 'Ex2', text: 'The robot helped because that's what it was built to do.' },
+      { id: 'Int1', text: 'The robot helped because it would feel bad if it didn't help' }
     ]
   },
   {
@@ -199,14 +215,12 @@ const QUESTION_SECTIONS = [
     title: 'Perceived Altruism & Egoism',
     studies: [2],
     items: [
-      { id: 'al1', text: 'The robot helped because it genuinely cared about how I was doing.' },
-      { id: 'al2', text: "The robot's main concern was making things easier for me, not for itself." },
-      { id: 'al3', text: 'The robot would have helped me even if it got nothing out of it.' },
-      { id: 'al4', text: 'The robot paid attention to what I actually needed in that moment.' },
       { id: 'eg1', text: 'The robot seemed to be helping to relieve its own discomfort, not mine.' },
       { id: 'eg2', text: 'The robot was more focused on how it would feel than on how I would feel.' },
-      { id: 'eg3', text: "It didn't seemed to help mainly because it needed to feel like it had done something." },
-      { id: 'eg4', text: "If helping hadn't benefited the robot in some way, it probably wouldn't have bothered." }
+      { id: 'eg3', text: "If helping hadn't benefited the robot in some way, it probably wouldn't have bothered." },
+      { id: 'al1', text: 'The robot helped because it genuinely cared about how I was doing.' },
+      { id: 'al2', text: "The robot's main concern was making things easier for me, not for itself." },
+      { id: 'al3', text: 'The robot would have helped me even if it got nothing out of it.' }
     ]
   }
 ];
