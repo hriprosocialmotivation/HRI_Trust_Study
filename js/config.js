@@ -234,6 +234,27 @@ function itemIdsForStudy(study) {
 }
 
 /* -------------------------------------------------------------------------
+   FINAL QUESTIONS
+   Shown once, on their own page, after the very last trial video and
+   before the data-submission step. Not tied to any particular study.
+   ---------------------------------------------------------------------- */
+const FINAL_QUESTIONS = {
+  // 5-point Likert (separate scale from the 1-7 used in QUESTION_SECTIONS).
+  motivation_matters: {
+    text: 'Does the motivation of why the robot helped matter to you?'
+  },
+  // Multi-select checkboxes; 'Other' reveals a free-text field.
+  expression_forms: {
+    text: 'What forms of expressing motivation do you prefer?',
+    options: ['Motion', 'Gesture', 'Verbal', 'Other']
+  },
+  // Optional free text.
+  comments: {
+    text: 'Do you have any comments regarding the robot study itself or the survey design?'
+  }
+};
+
+/* -------------------------------------------------------------------------
    ATTENTION CHECKS
    Shown once per setting, ONLY on the Study 1 "empathy" trial for that
    setting (i.e. study === 1 && condition.id === 'empathy'). Participants
