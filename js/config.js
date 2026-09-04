@@ -241,12 +241,12 @@ function itemIdsForStudy(study) {
 const FINAL_QUESTIONS = {
   // 5-point Likert (separate scale from the 1-7 used in QUESTION_SECTIONS).
   motivation_matters: {
-    text: 'Does the motivation of why the robot helped matter to you?'
+    text: 'Does why the robot helped matter to you?'
   },
   // Multi-select checkboxes; 'Other' reveals a free-text field.
   expression_forms: {
-    text: 'What forms of expressing motivation do you prefer?',
-    options: ['Motion', 'Gesture', 'Verbal', 'Other']
+    text: "What forms of expressing the robot's helping motivation do you prefer?",
+    options: ['Body Motion', 'Gesture', 'Facial Expression', 'Verbal', 'On-screen text/display', 'Other']
   },
   // Optional free text.
   comments: {
