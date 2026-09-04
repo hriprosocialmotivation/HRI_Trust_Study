@@ -18,7 +18,8 @@ function freshState() {
     cursor: 0,               // index into sequence - the participant's real forward position
     reviewingStepIndex: null, // if set, temporarily viewing/editing an earlier trial
     responses: [],            // one entry per completed trial
-    totalItemsAll: 0          // total questionnaire items across the whole sequence, for progress %
+    totalItemsAll: 0,         // total questionnaire items across the whole sequence, for progress %
+    finalAnswers: null        // answers to the FINAL_QUESTIONS page (set once, after the last trial)
   };
 }
 
@@ -76,6 +77,7 @@ function render() {
   else if (state.screen === 'consent') renderConsent();
   else if (state.screen === 'demographics') renderDemographics();
   else if (state.screen === 'sequence') renderSequenceStep();
+  else if (state.screen === 'finalQuestions') renderFinalQuestions();
   else if (state.screen === 'submitting') renderSubmitting();
   else if (state.screen === 'complete') renderComplete();
   requestAnimationFrame(() => window.scrollTo(0, 0));
@@ -173,7 +175,10 @@ function renderDemographics() {
 function renderSequenceStep() {
   const displayIndex = state.reviewingStepIndex !== null ? state.reviewingStepIndex : state.cursor;
   const step = state.sequence[displayIndex];
-  if (!step) { state.screen = 'submitting'; return render(); }
+  if (!step) {
+    state.screen = state.finalAnswers ? 'submitting' : 'finalQuestions';
+    return render();
+  }
   if (step.type === 'context') return renderContextScreen(step, displayIndex);
   return renderTrialScreen(step, displayIndex);
 }
@@ -375,6 +380,96 @@ function renderTrialScreen(step, displayIndex) {
   ]));
 }
 
+/* --------------------------- final questions page -------------------------- */
+
+function renderFinalQuestions() {
+  const existing = state.finalAnswers || {};
+  const errorBox = el('p', { class: 'error hidden' }, 'Please answer the required questions above.');
+
+  // --- Q1: motivation-matters, 5-point Likert (Strongly Disagree -> Strongly Agree) ---
+  let motivationAnswer = existing.motivation_matters;
+  const motivationRowId = 'final_motivation_matters';
+  const motivationRadios = [1, 2, 3, 4, 5].map(v => {
+    const input = el('input', { type: 'radio', name: motivationRowId, value: v });
+    if (motivationAnswer === v) input.checked = true;
+    input.addEventListener('change', () => {
+      motivationAnswer = v;
+      motivationRow.classList.remove('invalid');
+    });
+    return el('label', { class: 'likert-opt' }, [input, el('span', {}, String(v))]);
+  });
+  const motivationRow = el('div', { class: 'likert-row' }, [
+    el('p', { class: 'likert-text' }, FINAL_QUESTIONS.motivation_matters.text),
+    el('div', { class: 'likert-scale' }, motivationRadios)
+  ]);
+
+  // --- Q2: preferred forms of expressing motivation, multi-select + "Other" text ---
+  let expressionForms = existing.expression_forms ? existing.expression_forms.slice() : [];
+  let expressionOther = existing.expression_forms_other || '';
+  const expressionRow = el('div', { class: 'likert-row' });
+  const otherInput = el('input', {
+    class: 'input',
+    type: 'text',
+    placeholder: 'Please specify',
+    disabled: expressionForms.includes('Other') ? undefined : 'disabled'
+  });
+  otherInput.value = expressionOther;
+  otherInput.addEventListener('input', () => { expressionOther = otherInput.value; });
+
+  const expressionChecks = FINAL_QUESTIONS.expression_forms.options.map(opt => {
+    const input = el('input', { type: 'checkbox', value: opt });
+    if (expressionForms.includes(opt)) input.checked = true;
+    input.addEventListener('change', () => {
+      if (input.checked) { if (!expressionForms.includes(opt)) expressionForms.push(opt); }
+      else { expressionForms = expressionForms.filter(o => o !== opt); }
+      if (opt === 'Other') {
+        otherInput.disabled = !input.checked;
+        if (!input.checked) { expressionOther = ''; otherInput.value = ''; }
+      }
+      expressionRow.classList.remove('invalid');
+    });
+    return el('label', { class: 'checkbox-row' }, [input, el('span', {}, opt)]);
+  });
+  expressionRow.append(
+    el('p', { class: 'likert-text' }, FINAL_QUESTIONS.expression_forms.text),
+    el('div', { class: 'stack' }, expressionChecks),
+    otherInput
+  );
+
+  // --- Q3: optional free-text comments ---
+  const commentsBox = el('textarea', { class: 'input', rows: 4, placeholder: '(Optional)' });
+  commentsBox.value = existing.comments || '';
+
+  const continueBtn = el('button', { class: 'btn primary' }, 'Continue');
+  continueBtn.addEventListener('click', () => {
+    let ok = true;
+    if (motivationAnswer === undefined) { motivationRow.classList.add('invalid'); ok = false; }
+    if (expressionForms.length === 0) { expressionRow.classList.add('invalid'); ok = false; }
+    if (!ok) { errorBox.classList.remove('hidden'); window.scrollTo(0, 0); return; }
+    errorBox.classList.add('hidden');
+
+    state.finalAnswers = {
+      motivation_matters: motivationAnswer,
+      expression_forms: expressionForms,
+      expression_forms_other: expressionForms.includes('Other') ? expressionOther : '',
+      comments: commentsBox.value.trim()
+    };
+    state.screen = 'submitting';
+    render();
+  });
+
+  root.appendChild(el('div', { class: 'card stack' }, [
+    el('p', { class: 'eyebrow' }, 'A few last questions'),
+    el('h2', {}, 'Before you finish'),
+    el('div', { class: 'likert-anchors' }, [el('span', {}, 'Strongly Disagree'), el('span', {}, 'Strongly Agree')]),
+    motivationRow,
+    expressionRow,
+    el('div', { class: 'field' }, [el('span', {}, FINAL_QUESTIONS.comments.text), commentsBox]),
+    errorBox,
+    el('div', { class: 'row gap' }, [continueBtn])
+  ]));
+}
+
 /* -------------------------------- complete -------------------------------- */
 
 function renderSubmitting() {
@@ -384,7 +479,8 @@ function renderSubmitting() {
       started_at: state.startedAt,
       finished_at: new Date().toISOString(),
       demographics: state.demographics,
-      trials: state.responses
+      trials: state.responses,
+      final_questions: state.finalAnswers
     };
     state.submitStatusText = CONFIG.SUBMIT_URL
       ? 'Submitting your data...'
