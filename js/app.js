@@ -551,11 +551,16 @@ function downloadJSON(payload) {
 function downloadCSV(payload) {
   const allItems = QUESTION_SECTIONS.flatMap(s => s.items.map(i => ({ ...i, section: s.id })));
   const demoKeys = Object.keys(payload.demographics || {});
+  const finalQ = payload.final_questions || {};
+  const expressionFormsStr = (finalQ.expression_forms || []).join('; ');
   const header = [
     'participant_id', 'trial_index', 'study', 'setting_id', 'condition_id',
     'section', 'item_id', 'item_text', 'raw_value', 'reverse_scored', 'recoded_value',
     'attn_check_response',
-    ...demoKeys.map(k => `demo_${k}`)
+    ...demoKeys.map(k => `demo_${k}`),
+    // repeated on every row for this participant, since these three
+    // questions are asked once at the end of the study, not per trial.
+    'final_motivation_matters', 'final_expression_forms', 'final_expression_forms_other', 'final_comments'
   ];
   const rows = [header.join(',')];
   payload.trials.forEach(trial => {
@@ -570,7 +575,8 @@ function downloadCSV(payload) {
         // repeated on every item row of trials that had an attention check
         // (the empathy-condition trials), blank otherwise.
         ac ? ac.response : '',
-        ...demoKeys.map(k => csvEscape(payload.demographics[k]))
+        ...demoKeys.map(k => csvEscape(payload.demographics[k])),
+        finalQ.motivation_matters, csvEscape(expressionFormsStr), csvEscape(finalQ.expression_forms_other), csvEscape(finalQ.comments)
       ];
       rows.push(row.join(','));
     });
