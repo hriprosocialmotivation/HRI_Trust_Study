@@ -95,8 +95,8 @@ const VIDEO_FILES = {
       egoistic:   driveVideoUrl('1otPUWAznBeEvRYEVPQwrGjkTv-tAjw1t')  // study2_condition2_companion_robot
     },
     industrial: {
-      altruistic: driveVideoUrl('1n40zMqPW7iy5EUk0Jt6dQG2-B5D4EzCQ'), // study2_condition1_constrcution_robot (typo in original filename)
-      egoistic:   driveVideoUrl('1ZyRQYU-FQuSH8ScBlC5OIVM-cAXbHPsl')  // study2_condition2_constrcution_robot (typo in original filename)
+      egoistic: driveVideoUrl('1n40zMqPW7iy5EUk0Jt6dQG2-B5D4EzCQ'), 
+      altruistic:   driveVideoUrl('1ZyRQYU-FQuSH8ScBlC5OIVM-cAXbHPsl')  
     }
   }
 };
