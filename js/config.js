@@ -19,7 +19,10 @@ const CONFIG = {
     There are no right or wrong answers - please respond based on your
     honest impressions.`,
 
-  CONSENT_TEXT: `By clicking "I agree" you confirm that you are 18 years of
+  CONSENT_TEXT: `The research team reserves the right to withdraw participants from the study, 
+  reject their submissions, exclude their responses from analysis, and withhold compensation if they fail two or more attention-check 
+  questions, provide low-quality responses, or falsify their identity to meet eligibility criteria. 
+  By clicking "I agree" you confirm that you are 18 years of
     age or older, that you have read the participant information, and that
     you voluntarily agree to take part in this study. Your responses are
     confidential and will be used for research purposes only. You may
